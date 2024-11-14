@@ -88,7 +88,7 @@ Your shopping cart
                     <form action="{% url "coupons:apply" %}" method="post">
                         {% csrf_token %}
                         <div class="col-md-8 mb-3 mb-md-0">
-                            {{ coupon_apply_form.code|as_crispy_field }}
+                            {% comment %} {{ coupon_apply_form.code|as_crispy_field }} {% endcomment %}
                         </div>
                         <div class="col-md-4">
                             <button type="submit" class="btn btn-primary btn-sm">Apply Coupon</button>
