@@ -31,7 +31,7 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
-        index_together = (('id', 'slug'),)
+        indexes = [models.Index(fields=['id', 'slug'], name='id_idx')]
 
     def __str__(self):
         return self.name
