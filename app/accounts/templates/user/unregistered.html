@@ -1,0 +1,52 @@
+{% extends "shop/base/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{user.username}}
+{% endblock %}
+{% block content %}
+
+<head>
+    <style>
+        .button {
+          border: none;
+          color: white;
+          padding: 16px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          transition-duration: 0.4s;
+          cursor: pointer;
+        }
+        
+        .button1 {
+          background-color: white;
+          color: black;
+          border: 2px solid red;
+        }
+        
+        .button1:hover {
+          background-color: red;
+          color: white;
+        }
+    </style>
+</head>
+
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">Profile</strong></div>
+        </div>
+    </div>
+</div>
+
+<center>
+
+    <a href="login/" class="button button1">Sign in</a>
+    <a href="register/" class="button button1">Register</a>
+</center>
+{% endblock %}
