@@ -20,19 +20,6 @@ def login_view(request):
     
 def signin(request):
     print('Login Request Made!')
-    # print('Reading Data from JSON')
-    # json2 = open('user_data.json',) 
-    # data = json.load(json2) 
-    # l1 = data['u_data'][0]
-    # emails = list(l1.keys())
-    # passwords = list(l1.values())
-    # json2.close() 
-    # print('Read data from JSON')
-    # global times
-    # times = times+1
-    # if request.path == '/login/signin/':
-    #     report_loc = '../signin/'
-    # else: report_loc = 'signin/'
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
