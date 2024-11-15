@@ -56,19 +56,10 @@ def register(request):
         report_loc = '../signup/'
     else: report_loc = 'signup/'
     return render(request, 'register/register.html', {'loc':report_loc,'error': ''})
+
 def signup(request):
     print('Register Request Made!')
     print('Reading Data from JSON')
-    # if request.path == '/register/signup/':
-    #     report_loc = '../signup/'
-    # else: report_loc = 'signup/'
-    # json2 = open('user_data.json',) 
-    # data = json.load(json2) 
-    # l1 = data['u_data'][0]
-    # emails = list(l1.keys())
-    # passwords = list(l1.values())
-    # json2.close() 
-    # print('Read data from JSON')
     email = request.POST['email']
     password = request.POST['password']
     password1 = request.POST['password1']
