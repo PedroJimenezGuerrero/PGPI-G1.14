@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, logout, login
 #user1, password: usuario1
 #user2, password: usuario2
 #admin1, password: administrador1
+#user3, password: user3
+#user4, password user4
 
 times = 0
 def login_view(request):
@@ -20,15 +22,19 @@ def login_view(request):
     
 def signin(request):
     print('Login Request Made!')
-    username = request.POST['username']
+    usernameOrEmail = request.POST['username']     #Si se inicia sesión con email, 'username' será un correo
     password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
+    
+    user = authenticate(request, username=usernameOrEmail, password=password)
+    if user is None:
+        username = User.objects.get(email__exact = usernameOrEmail).get_username()
+        user = authenticate(request, username=username, password=password)         # Si falla autenticación con correo lo intenta con nombre de usuario
     if user is not None:
         login(request, user, user.backend)
         return redirect('/')
     else:
         print('Account does not exist, returning HTTP response')
-        return render(request, 'accounts/login.html', {'errorclass':'alert alert-danger','error': 'Sorry. No such account exists. Consider signing up!'})
+        return render(request, 'login/login.html', {'errorclass':'alert alert-danger','error': 'Sorry. No such account exists. Consider signing up!'})
     
 
 
@@ -51,8 +57,9 @@ def signup(request):
     password = request.POST['password']
     password1 = request.POST['password1']
     username = request.POST['username']
-    userExists = authenticate(request, username = username)
-    if userExists is None:
+    emailExists = authenticate(request, email = email)
+    nameExists = authenticate(request, username = username)
+    if nameExists and emailExists is None:
         if password == password1:
             User.objects.create_user(username=username, email=email, password=password)
             print('Registered new user, returning HTTP response')
