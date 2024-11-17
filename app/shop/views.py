@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from cart.forms import CartAddProductForm
 from .models import Category, Product
+from django.contrib.auth import logout
 
 # from django.views import generic
 

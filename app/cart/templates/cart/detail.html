@@ -10,7 +10,7 @@ Your shopping cart
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
                     class="text-black">Cart</strong></div>
         </div>
     </div>
@@ -88,7 +88,7 @@ Your shopping cart
                     <form action="{% url "coupons:apply" %}" method="post">
                         {% csrf_token %}
                         <div class="col-md-8 mb-3 mb-md-0">
-                            {{ coupon_apply_form.code|as_crispy_field }}
+                            {% comment %} {{ coupon_apply_form.code|as_crispy_field }} {% endcomment %}
                         </div>
                         <div class="col-md-4">
                             <button type="submit" class="btn btn-primary btn-sm">Apply Coupon</button>

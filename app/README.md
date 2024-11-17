@@ -21,12 +21,12 @@ Django-ecommerce is an open-source ecommerce platform built on the Django Web Fr
 git clone https://github.com/shyam999/Django-ecommerce.git
 pip install -r requirements.txt
 ```
-**2.Setup Virtualenv**
+**2.Setup Virtualenv (ESTO ES INNECESARIO si no hay conflicto de librerías)**
 ```sh
-virtualenv env
-source env/bin/activate
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
-**3.Migrate & Start Server**
+**3.Migrate & Start Server (NO ES NECESARIO HACER LAS MIGRACIONES, SÓLO RUNSERVER)**
 ```sh
 python manage.py makemigrations
 python manage.py migrate
