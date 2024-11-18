@@ -9,7 +9,6 @@ env/*
 *.pot
 *.pyc
 __pycache__
-media
 
 # Visual Studio Code # 
 .vscode
