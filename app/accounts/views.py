@@ -57,9 +57,28 @@ def signup(request):
     password = request.POST['password']
     password1 = request.POST['password1']
     username = request.POST['username']
-    emailExists = authenticate(request, email = email)
-    nameExists = authenticate(request, username = username)
-    if nameExists and emailExists is None:
+    emailExists = User.objects.filter(email = email).exists()
+    nameExists = User.objects.filter(username = username).exists()
+    print(emailExists)
+    print(nameExists)   
+    # if nameExists is None and emailExists is None:
+    #     if password == password1:
+    #         User.objects.create_user(username=username, email=email, password=password)
+    #         print('Registered new user, returning HTTP response')
+    #         user = authenticate(request, username = username, email=email, password=password)
+    #         login(request, user, user.backend)
+    #         return redirect('/accounts/profile')
+    #     else:
+    #         print('Passwords do not match, returning HTTP response')
+    #         return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Passwords do not match.'})
+    # else:
+    #     print('The Username or Email ID is already taken, returning HTTP response')
+    #     return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Username or Email ID is already taken.'})
+    
+    if nameExists and emailExists:
+        print('The Username or Email ID is already taken, returning HTTP response')
+        return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Username or Email ID is already taken.'})
+    else:
         if password == password1:
             User.objects.create_user(username=username, email=email, password=password)
             print('Registered new user, returning HTTP response')
@@ -69,9 +88,7 @@ def signup(request):
         else:
             print('Passwords do not match, returning HTTP response')
             return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Passwords do not match.'})
-    else:
-        print('The Username or Email ID is already taken, returning HTTP response')
-        return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Username or Email ID is already taken.'})
+        
     
     
 def profile(request):
