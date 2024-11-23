@@ -5,4 +5,5 @@ app_name = 'order'
 
 urlpatterns = [
     path('create/', views.order_create, name='order_create'),
+    path('search', view=views.search, name='search')
 ]
