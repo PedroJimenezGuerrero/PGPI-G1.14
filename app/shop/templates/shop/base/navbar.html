@@ -35,7 +35,7 @@
                                         <span class="count" style="background-color: #0088FF;">
                                         {% with total_items=cart|length %}
                                             {% if cart|length > 0 %}
-                                                {{ total_items|pluralize }}
+                                                {{ total_items }}
                                             {% else %}
                                                 0
                                             {% endif %}
