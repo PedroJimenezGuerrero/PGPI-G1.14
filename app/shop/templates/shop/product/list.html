@@ -4,6 +4,9 @@
 {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 {% block content %}
+{% load crispy_forms_tags %}
+
+
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
@@ -28,8 +31,16 @@
                             </figure>
                             <div class="block-4-text p-4">
                                 <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
-                                <p class="mb-0">{{ product.description }}</p>
-                                <p class="text-primary font-weight-bold">${{ product.price }}</p>
+                                <p class="text-primary font-weight-bold">{{ product.price }} €</p>
+                                <hr>
+                                <!-- LA LINEA DE ABAJO ES UNA MANERA DE HACER, EL BLOQUE DE DESPUES ES COMO ESTÁ EN LO DE LOS DETALLES DE UN CURSO-->
+                                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Añadir</button>
+                                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                    {% csrf_token %}
+                                    {{ cart_product_form|crispy }}
+                                    <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir">
+                                  </form>
+                                
                             </div>
                         </div>
                     </div>
@@ -41,7 +52,7 @@
                         <div class="site-block-27">
                             <ul>
                                 <li><a href="#">&lt;</a></li>
-                                <li class="active"><span>1</span></li>
+                                <li class="active"><span style="background-color: #0088FF;">1</span></li>
                                 <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
@@ -54,7 +65,7 @@
             </div>
             <div class="col-md-3 order-1 mb-5 mb-md-0">
                 <div class="border p-4 rounded mb-4">
-                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categorias</h3>
                     <ul class="list-unstyled mb-0">
                         <li {% if not category %} class="mb-1" {% endif %}>
                             <a href="{% url "shop:product_list" %}" class="d-flex"><span>All</a>

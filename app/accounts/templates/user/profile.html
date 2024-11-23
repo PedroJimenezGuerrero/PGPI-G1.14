@@ -39,13 +39,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                    class="text-black">Profile</strong></div>
+                    class="text-black">Perfil</strong></div>
         </div>
     </div>
 </div>
 
 <center>
-
-    <a href="logout/" class="button button1">Log out</a>
+  <div class="row">
+    <div class="col-md-4 text-center">
+        <div class="mt-3">
+          <a href="logout/" class="btn btn-sm" style="border-radius:5px; background-color:red; color:white; display:block; margin-bottom: 10px; width: 200px; margin-left:100px">Cerrar sesión</a>
+          <a href="" class="btn btn-sm" style="border-radius:5px; background-color: #0088FF; color:white; display:block; width: 200px; margin-left:100px">Editar cuenta</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h1 style="color:black"><u>Perfil de usuario</u></h1>
+        <a style="color:black; font-size:1.5rem">Usuario: {{ user.username }}</a>
+        <br>
+        <a style="color:black; font-size:1.5rem">Correo: {{ user.email }}</a>
+    </div>
+</div>
+</div>
+</div>
 </center>
 {% endblock %}
