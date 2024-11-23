@@ -1,7 +1,7 @@
 {% extends "shop/base/base.html" %}
 {% load static %}
 {% block title %}
-{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% if category %}{{ category.name }}{% else %}Productos{% endif %}
 {% endblock %}
 {% block content %}
 {% load crispy_forms_tags %}
@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                    class="text-black">Shop</strong></div>
+                    class="text-black">Tienda</strong></div>
         </div>
     </div>
 </div>
@@ -75,7 +75,7 @@
                             </li>
                             {% endfor %}
                         </ul>
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Durations</h3>
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Duraciones</h3>
                         <ul class="list-unstyled mb-0">
                             {% for d in durations %}
                             <li>
@@ -84,12 +84,15 @@
                             </li>
                             {% endfor %}
                         </ul>
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Price</h3>
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Precio</h3>
+                        <a>Precio mínimo: </a>
                         <input type="range" name="min_price" min="0" max="2000" value="{{ request.GET.min_price|default:0 }}" step="10" oninput="this.nextElementSibling.value = this.value">
                         <output>{{ request.GET.min_price|default:0 }}</output>
+                        <br>
+                        <a>Precio máximo: </a>
                         <input type="range" name="max_price" min="0" max="2000" value="{{ request.GET.max_price|default:2000 }}" step="10" oninput="this.nextElementSibling.value = this.value">
                         <output>{{ request.GET.max_price|default:2000 }}</output>
-                        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="background-color: #0088FF;">Filtrar</button>
                     </form>
                 </div>
             </div>

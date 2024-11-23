@@ -80,3 +80,6 @@ def product_detail(request, id, slug):
 #         context['products'] = get_object_or_404(Product, 
 #         id=id, slug=slug, available=True)
 #         return context
+
+def terminos(request):
+    return render(request, 'shop/terminos/terminos.html')

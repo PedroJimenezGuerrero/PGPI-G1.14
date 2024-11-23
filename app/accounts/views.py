@@ -1,6 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .forms import EditProfileForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from .forms import CustomUserCreationForm
 
 #user1, password: usuario1
 #user2, password: usuario2
@@ -73,10 +80,9 @@ def signup(request):
             print('Passwords do not match, returning HTTP response')
             return render(request, 'register/register.html', {'errorclass':'alert alert-danger','error': 'Sorry. The Passwords do not match.'})
         
-    
-    
+
 def profile(request):
-    return render(request,'user/profile.html') 
+    return render(request,'user/profile.html')
 
 def logout_view(request):
     logout(request)
@@ -84,3 +90,25 @@ def logout_view(request):
 
 def unregistered(request):
     return render(request, 'user/unregistered.html')
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/accounts/profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+    return render(request, 'user/edit_profile.html', {'form': form})
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/accounts/profile')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register/register.html', {'form': form})
