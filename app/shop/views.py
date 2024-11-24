@@ -21,24 +21,38 @@ from cart.forms import CartAddProductForm
 
 
 
-def product_list(request, category_slug=None):
-    category = None
-    categories = Category.objects.all()
-    products = Product.objects.all()
-
+def product_list(request):
+    category_slugs = request.GET.getlist('category')
+    duration_slugs = request.GET.getlist('duration')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
     query = request.GET.get('q')
+
+
+    products = Product.objects.filter(available=True)
+
+    if category_slugs:
+        products = products.filter(category__slug__in=category_slugs)
+
+    if duration_slugs:
+        products = products.filter(duration__slug__in=duration_slugs)
+
+    if min_price:
+        products = products.filter(price__gte=min_price)
+
+    if max_price:
+        products = products.filter(price__lte=max_price)
+
     if query:
         products = products.filter(name__icontains=query)
 
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
 
-    return render(request, 'shop/product/list.html', {
-        'category': category,
-        'categories': categories,
+    context = {
         'products': products,
-    })
+        'categories': Category.objects.all(),
+        'durations': Duration.objects.all(),
+    }
+    return render(request, 'shop/product/list.html', context)
 
 # class ProductListView(generic.ListView):
 #     template_name = 'shop/product/list.html'
