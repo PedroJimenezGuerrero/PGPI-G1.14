@@ -1,0 +1,29 @@
+{% extends "shop/base/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Editar perfil
+{% endblock %}
+{% block content %}
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">Editar perfil</strong></div>
+        </div>
+    </div>
+
+    <center>
+        <div class="row">
+            <div class="col-md-4 text-center" style="display:flex; margin-left:450px">
+                <div class="mt-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-sm" style="border-radius:5px; background-color: #0088FF; color:white; display:block; width: 200px; margin-left:100px">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </center>
+</div>
+{% endblock %}

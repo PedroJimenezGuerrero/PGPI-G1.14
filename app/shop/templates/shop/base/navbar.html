@@ -6,13 +6,15 @@
                     <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                         <form action="" class="site-block-top-search">
                             <span class="icon icon-search2"></span>
-                            <input type="text" class="form-control border-0" placeholder="Search">
+                            <input type="text" class="form-control border-0" placeholder="Búsqueda">
                         </form>
                     </div>
 
                     <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                         <div class="site-logo">
-                            <a href="/" class="js-logo-clone">Academia Terminus</a>
+                            <a href="/" class="js-logo-clone">
+                                <img src="/media/products/2024/11/logo/logo.png" alt="Academia Terminus" style="max-height: 30px;">
+                            </a>
                         </div>
                     </div>
 
@@ -25,12 +27,12 @@
                                 <li>
                                     <a href="/accounts/profile">{{ user.username }} <span class="icon icon-person"></span></a></li>
                                 {%else%}
-                                <li><a href="/accounts/unregistered">Anonymus <span class="icon icon-person"></span></a></li>
+                                <li><a href="/accounts/unregistered">Anónimo <span class="icon icon-person"></span></a></li>
                                 {%endif%}
                                 <li>
                                     <a href="{% url "cart:cart_detail" %}" class="site-cart">
                                         <span class="icon icon-shopping_cart"></span>
-                                        <span class="count">
+                                        <span class="count" style="background-color: #0088FF;">
                                         {% with total_items=cart|length %}
                                             {% if cart|length > 0 %}
                                                 {{ total_items }}
@@ -51,12 +53,5 @@
             </div>
         </div>
         <nav class="site-navigation text-right text-md-center" role="navigation">
-            <div class="container">
-                <ul class="site-menu js-clone-nav d-none d-md-block">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="shop.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
         </nav>
     </header>

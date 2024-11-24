@@ -115,21 +115,18 @@ Register
 })()</script></head>
 
   <body class="text-center">
-    <form class="form-signin" action="/accounts/register/signup/" method="POST">
-        {% csrf_token %}
-        <div class="{{errorclass}}" role="alert">{{error}}</div>
-      {% comment %} <img class="rounded-circle" src="https://avatars2.githubusercontent.com/u/62926183?s=460&u=e560f6297c81982fc2b554f3c997ec878421fa80&v=4" alt="" width="72" height="72"> {% endcomment %}
-      <h1 class="h3 mb-3 font-weight-normal">Register</h1>
-      <label for="inputUsrername" class="sr-only">Username</label>
-      <input type="text" id="inputUsername" class="form-control" placeholder="Username" required=True autofocus=True name="username">
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required=True name="email">
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=True name="password">
-      <label for="inputPassword" class="sr-only">Confirm Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Confirm Password" required=True name="password1">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up!</button>
-    </form>
+    <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-md-6">
+              <h1 class="h3 mb-3 font-weight-normal text-center">Registrar</h1>
+              <form method="post" class="form-signin">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Crear!</button>
+              </form>
+          </div>
+      </div>
+  </div>
   
 
 </body></html>
