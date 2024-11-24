@@ -2,16 +2,17 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-Your shopping cart
+Tu cesta de la compra
 {% endblock %}
 {% block content %}
+
 
 
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                    class="text-black">Cart</strong></div>
+                    class="text-black">Carrito</strong></div>
         </div>
     </div>
 </div>
@@ -24,12 +25,12 @@ Your shopping cart
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="product-thumbnail">Image</th>
-                                <th class="product-name">Product</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
+                                <th class="product-thumbnail">Imagen</th>
+                                <th class="product-name">Producto</th>
+                                <th class="product-price">Precio</th>
+                                <th class="product-quantity">Cantidad</th>
                                 <th class="product-total">Total</th>
-                                <th class="product-remove">Remove</th>
+                                <th class="product-remove">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,24 +43,26 @@ Your shopping cart
                                 <td class="product-name">
                                     <h2 class="h5 text-black">{{ product.name }}</h2>
                                 </td>
-                                <td>${{ item.price }}</td>
+                                <td>{{ item.price }} €</td>
                                 <td>
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-prepend">
-                                            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                            <form action="{% url 'cart:cart_update' product.id %}" method="post">
                                                 {% csrf_token %}
-                                                {{ item.update_quantity_form.quantity }}
-                                                {{ item.update_quantity_form.override }}
-                                                <input class="btn btn-outline-primary js-btn-plus" type="submit"
-                                                    value="Update">
-                                            </form>
+                                                <div class="input-group mb-3" style="max-width: 120px;">
+                                                    <!-- Cuadro numérico para cantidad -->
+                                                    <input type="number" name="quantity" value="{{ item.quantity }}" class="form-control" min="1" step="1" style="text-align: center;">
+                                                    
+                                                </div>
+                                            </form>    
                                         </div>
                                     </div>
                                 </td>
-                                <td>${{ item.total_price }}</td>
-                                <td><a href="{% url "cart:cart_remove" product.id %}"
-                                        class="btn btn-primary btn-sm">X</a></td>
-                            </tr>
+                                <td>{{ item.total_price }} €</td>
+                                    <td><a href="{% url 'cart:cart_remove' product.id %}" class="btn btn-primary btn-sm" style="background-color: #0088FF;">
+                                            <i class="fas fa-trash-alt"></i>
+                                    </a></td>
+                                </tr>
                             {% endwith %}
                             {% endfor %}
                             </tr>
@@ -69,31 +72,15 @@ Your shopping cart
                 </div>
             </form>
         </div>
-
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary" style="background-color: #0088FF; color:white;">Actualizar</button>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="row mb-5">
                     <div class="col-md-6 mb-3 mb-md-0">
-                        <button onclick="window.location='{% url "shop:product_list" %}'" class="btn btn-primary btn-sm btn-block">Continue Shopping</button>
+                        <button onclick="window.location='{% url "shop:product_list" %}'" class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;">Continuar comprando</button>
                     </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-outline-primary btn-sm btn-block">Checkout</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label class="text-black h4" for="coupon">Coupon</label>
-                        <p>Enter your coupon code if you have one.</p>
-                    </div>
-                    <form action="{% url "coupons:apply" %}" method="post">
-                        {% csrf_token %}
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            {% comment %} {{ coupon_apply_form.code|as_crispy_field }} {% endcomment %}
-                        </div>
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary btn-sm">Apply Coupon</button>
-                        </div>
-                    </form>
                 </div>
             </div>
             <div class="col-md-6 pl-5">
@@ -101,7 +88,7 @@ Your shopping cart
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                                <h3 class="text-black h4 text-uppercase" style="display:flex; align-text:center">Cantidad total</h3>
                             </div>
                         </div>
 
@@ -116,8 +103,11 @@ Your shopping cart
 
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-lg py-3 btn-block"
-                                    onclick="window.location='{% url "order:order_create" %}'">Proceed To Checkout</button>
+                                <div style="display:flex; justify-content: center;">
+                                    <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
+                                </div>
+                                <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF;"
+                                    onclick="window.location='{% url "order:order_create" %}'">Finalizar compra</button>
                             </div>
                         </div>
                     </div>

@@ -2,16 +2,20 @@ from django import forms
 from .models import Order
 
 class OrderCreateForm(forms.ModelForm):
- class Meta:
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(OrderCreateForm, self).__init__(*args, **kwargs)
+        if user and user.is_authenticated:
+            self.fields['email'].initial = user.email
+
+    class Meta:
         model = Order
         fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city']
-
- 
- """ first_name = forms.CharField(max_length=50)
- last_name = forms.CharField(max_length=50)
- email = forms.EmailField()
- address = forms.CharField(max_length=150)
- postal_code = forms.CharField(max_length=150)
- city = forms.CharField(max_length=100) """
-    
-
+        labels = {
+            'first_name': 'Nombre',
+            'last_name': 'Apellido',
+            'email': 'Correo Electrónico',
+            'address': 'Dirección',
+            'postal_code': 'Código Postal',
+            'city': 'Ciudad'
+        }

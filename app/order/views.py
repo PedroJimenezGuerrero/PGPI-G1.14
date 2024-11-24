@@ -6,7 +6,7 @@ from .forms import OrderCreateForm
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.POST, user=request.user)
         if form.is_valid():
             order = form.save()
             for item in cart:
@@ -16,7 +16,7 @@ def order_create(request):
             cart.clear()
             return render(request, 'order/created.html', {'order': order})
     else:
-        form = OrderCreateForm()
+        form = OrderCreateForm(user=request.user)
     return render(request, 'order/create.html', {'cart': cart, 'form': form})
 
 def search(request):
