@@ -1,5 +1,7 @@
 from django.db import models
 from shop.models import Product
+import random
+import string
 
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
@@ -11,6 +13,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    code = models.CharField(max_length=10, unique=True ,default=''.join(random.choices(string.ascii_uppercase + string.digits, k=10)))
 
     class Meta:
         ordering = ('-created',)
