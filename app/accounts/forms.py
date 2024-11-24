@@ -5,8 +5,6 @@ from django.contrib.auth.forms import UserCreationForm
 import re
 
 class EditProfileForm(UserChangeForm):
-    password = forms.CharField(label='', widget=forms.TextInput(attrs={'type': 'hidden'}))
-
     class Meta:
         model = User
         fields = ['username', 'email']
@@ -14,7 +12,13 @@ class EditProfileForm(UserChangeForm):
             'username': 'Nombre de usuario',
             'email': 'Correo electrónico',
         }
-
+        
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        # Excluir campos no deseados explícitamente
+        if 'password' in self.fields:
+            del self.fields['password']
+        
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 

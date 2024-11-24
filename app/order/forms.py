@@ -5,8 +5,8 @@ class OrderCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(OrderCreateForm, self).__init__(*args, **kwargs)
-        if user:
-            self.fields['email'].widget.attrs['placeholder'] = user.email
+        if user and user.is_authenticated:
+            self.fields['email'].initial = user.email
 
     class Meta:
         model = Order
@@ -17,5 +17,5 @@ class OrderCreateForm(forms.ModelForm):
             'email': 'Correo Electrónico',
             'address': 'Dirección',
             'postal_code': 'Código Postal',
-            'city': 'Ciudad',
+            'city': 'Ciudad'
         }

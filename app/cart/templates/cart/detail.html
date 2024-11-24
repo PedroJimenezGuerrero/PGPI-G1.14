@@ -47,23 +47,14 @@ Tu cesta de la compra
                                 <td>
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-prepend">
-                                            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                            <form action="{% url 'cart:cart_update' product.id %}" method="post">
                                                 {% csrf_token %}
-                                                <div class="input-group-prepend" >
-                                                    <button type="button" class="btn btn-outline-secondary btn-decrease" 
-                                                        style="border-radius:10px; background-color: #0088FF; color:white; margin-right:2px; width: 35px;"
-                                                        data-product-id="{{ product.id }}">-</button>
+                                                <div class="input-group mb-3" style="max-width: 120px;">
+                                                    <!-- Cuadro numérico para cantidad -->
+                                                    <input type="number" name="quantity" value="{{ item.quantity }}" class="form-control" min="1" step="1" style="text-align: center;">
+                                                    
                                                 </div>
-                                                {{ item.update_quantity_form.quantity }}
-                                                {{ item.update_quantity_form.override }}
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-outline-secondary btn-increase" 
-                                                        style="border-radius:10px; background-color: #0088FF; color:white; margin-left:2px" 
-                                                        data-product-id="{{ product.id }}">+</button>
-                                                </div>
-
-                                            </form>
-                                            
+                                            </form>    
                                         </div>
                                     </div>
                                 </td>
@@ -81,9 +72,9 @@ Tu cesta de la compra
                 </div>
             </form>
         </div>
-        <input class="btn btn-outline-primary js-btn-plus" type="submit"
-                                                    value="Actualizar" style="background-color: #0088FF; color:white; border-radius:4px">
-
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary" style="background-color: #0088FF; color:white;">Actualizar</button>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="row mb-5">
