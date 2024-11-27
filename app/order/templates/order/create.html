@@ -11,7 +11,7 @@ Checkout
             {% for item in cart %}
             <li>
                 {{ item.quantity }}x {{ item.product.name }}
-                <span>${{ item.total_price }}</span>
+                <span>{{ item.total_price }} €</span>
             </li>
             {% endfor %}
         </ul>
