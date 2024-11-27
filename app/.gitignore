@@ -9,6 +9,10 @@ env/*
 *.pot
 *.pyc
 __pycache__
+<<<<<<< HEAD
+=======
+media
+>>>>>>> de8db8d0b7a14731e47d2406b06d6e2806fbdb1d
 
 # Visual Studio Code # 
 .vscode
