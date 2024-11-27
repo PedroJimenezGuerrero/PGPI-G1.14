@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from cart.cart import Cart
 from cart.forms import CartAddProductForm
+from django.core.paginator import Paginator
 
 # from django.views import generic
 
@@ -46,6 +47,10 @@ def product_list(request):
     if query:
         products = products.filter(name__icontains=query)
 
+    paginator = Paginator(products, 6)  # Muestra 6 productos por página
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+    
 
     context = {
         'products': products,
