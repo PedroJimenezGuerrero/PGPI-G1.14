@@ -55,3 +55,11 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': float(self.price),
+            # add other fields as needed
+        }
+

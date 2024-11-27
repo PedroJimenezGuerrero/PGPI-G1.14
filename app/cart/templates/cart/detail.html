@@ -6,13 +6,24 @@ Tu cesta de la compra
 {% endblock %}
 {% block content %}
 
+<style>
+/* Ocultar flechas de incremento y decremento en Chrome, Safari y Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Ocultar flechas de incremento y decremento en Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+</style>
 
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                    class="text-black">Carrito</strong></div>
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Carrito</strong></div>
         </div>
     </div>
 </div>
@@ -20,7 +31,8 @@ Tu cesta de la compra
 <div class="site-section">
     <div class="container">
         <div class="row mb-5">
-            <form class="col-md-12" method="post">
+            <form class="col-md-12" method="post" action="{% url 'cart:cart_update' %}">
+                {% csrf_token %}
                 <div class="site-blocks-table">
                     <table class="table table-bordered">
                         <thead>
@@ -34,82 +46,64 @@ Tu cesta de la compra
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>{% for item in cart %}
-                                {% with product=item.product %}
+                            {% for item in cart %}
                             <tr>
                                 <td class="product-thumbnail">
-                                    <img src="{{ product.image.url }}" alt="Image" class="img-fluid">
+                                    <img src="{{ item.product.image.url }}" alt="Image" class="img-fluid">
                                 </td>
                                 <td class="product-name">
-                                    <h2 class="h5 text-black">{{ product.name }}</h2>
+                                    <h2 class="h5 text-black">{{ item.product.name }}</h2>
                                 </td>
                                 <td>{{ item.price }} €</td>
                                 <td>
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-prepend">
-                                            <form action="{% url 'cart:cart_update' product.id %}" method="post">
-                                                {% csrf_token %}
-                                                <div class="input-group mb-3" style="max-width: 120px;">
-                                                    <!-- Cuadro numérico para cantidad -->
-                                                    <input type="number" name="quantity" value="{{ item.quantity }}" class="form-control" min="1" step="1" style="text-align: center;">
-                                                    
-                                                </div>
-                                            </form>    
+                                            <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                        </div>
+                                        <input type="number" name="quantity_{{ item.product.id }}" class="form-control text-center" value="{{ item.quantity }}" min="1" step="1">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                                         </div>
                                     </div>
                                 </td>
                                 <td>{{ item.total_price }} €</td>
-                                    <td><a href="{% url 'cart:cart_remove' product.id %}" class="btn btn-primary btn-sm" style="background-color: #0088FF;">
-                                            <i class="fas fa-trash-alt"></i>
-                                    </a></td>
-                                </tr>
-                            {% endwith %}
-                            {% endfor %}
+                                <td><a href="{% url 'cart:cart_remove' item.product.id %}" class="btn btn-primary btn-sm" style="background-color: #0088FF;"><i class="fas fa-trash-alt"></i></a></td>
                             </tr>
-
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            </form>
-        </div>
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-outline-secondary" style="background-color: #0088FF; color:white;">Actualizar</button>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row mb-5">
+                <div class="row">
                     <div class="col-md-6 mb-3 mb-md-0">
-                        <button onclick="window.location='{% url "shop:product_list" %}'" class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;">Continuar comprando</button>
+                        <button type="submit" class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;">Actualizar</button>
+                    </div>
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <a href="{% url 'shop:product_list' %}" class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;">Continuar comprando</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 pl-5">
-                <div class="row justify-content-end">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase" style="display:flex; align-text:center">Cantidad total</h3>
-                            </div>
+            </form>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12 text-right border-bottom mb-5">
+                        <h3 class="text-black h4 text-uppercase" style="display:flex; align-text:center">Cantidad total</h3>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <span class="text-black">Total</span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <strong class="text-black">{{ cart.get_total_price_after_discount|floatformat:"2" }}</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="display:flex; justify-content: center;">
+                            <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
                         </div>
-
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                <span class="text-black">Total</span>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <strong class="text-black">{{ cart.get_total_price_after_discount|floatformat:"2" }}</strong>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div style="display:flex; justify-content: center;">
-                                    <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
-                                </div>
-                                <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF;"
-                                    onclick="window.location='{% url "order:order_create" %}'">Finalizar compra</button>
-                            </div>
-                        </div>
+                        <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF;" onclick="window.location='{% url 'order:order_create' %}'">Finalizar compra</button>
                     </div>
                 </div>
             </div>

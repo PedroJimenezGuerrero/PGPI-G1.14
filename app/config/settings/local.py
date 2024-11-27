@@ -114,3 +114,5 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CART_SESSION_ID = 'cart'
+
+SESSION_SERIALIZER = 'cart.base.JSONSerializer'
