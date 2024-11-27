@@ -35,12 +35,17 @@
                                 <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
                                 <p class="text-primary font-weight-bold">{{ product.price }} €</p>
                                 <hr>
+                                {% if not product.available %}
+                                    <p style="font-size:1rem; background-color:red;color:white;border-radius:5px">Agotado</p>
+                                {% endif %}
+                                {% if product.available %}
                                 <form action="{% url 'cart:cart_add' product.id %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="update" value="False">
                                     <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir al carrito">
                                 </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
