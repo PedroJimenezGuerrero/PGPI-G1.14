@@ -14,8 +14,11 @@ Checkout
                 <span>{{ item.total_price }} €</span>
             </li>
             {% endfor %}
+            <li>
+                <span> Reserva de curso 5,00 €</span>
+            </li>
         </ul>
-        <h4 style="color:black">Total: {{ cart.get_total_price }} €</h4>
+        <h4 style="color:black">Total: {{ cart.get_total_price|add:5.00|floatformat:2 }} €</h4>
     </div>
     <form action="." method="post" class="order-form">
         {{ form|crispy }}

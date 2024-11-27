@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'order.apps.OrderConfig',
     'coupons.apps.CouponsConfig',
     'accounts',
+    'escaparate',
 ]
 
 MIDDLEWARE = [

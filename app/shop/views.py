@@ -7,6 +7,8 @@ from shop.models import Product
 from cart.cart import Cart
 from cart.forms import CartAddProductForm
 from django.core.paginator import Paginator
+from .models import Product
+from django.db.models import Avg
 
 # from django.views import generic
 

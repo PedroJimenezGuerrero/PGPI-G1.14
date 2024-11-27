@@ -87,6 +87,8 @@ input[type="number"] {
             <div class="col-md-7">
                 <div class="row">
                     <div class="col-md-12 text-right border-bottom mb-5">
+                        <h3 style="color:black; display:flex; text-align:left">Finalizar compra</h3>
+                        <br></br>
                         <h3 class="text-black h4 text-uppercase" style="display:flex; align-text:center">Cantidad total</h3>
                     </div>
                 </div>
@@ -103,7 +105,10 @@ input[type="number"] {
                         <div style="display:flex; justify-content: center;">
                             <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
                         </div>
-                        <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF;" onclick="window.location='{% url 'order:order_create' %}'">Finalizar compra</button>
+                        <div style="display:flex">
+                            <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF; margin-top:0.5rem; margin-right: 1rem" onclick="window.location='{% url 'order:order_create' %}'">Contrareembolso</button>
+                            <button class="btn btn-primary btn-lg py-3 btn-block" style="background-color: #0088FF;" onclick="window.location='{% url 'order:order_create' %}'">Pago con tarjeta</button>
+                        </div>
                     </div>
                 </div>
             </div>
