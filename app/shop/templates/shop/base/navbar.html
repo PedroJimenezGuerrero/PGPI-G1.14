@@ -20,10 +20,16 @@
                                 {% if user.is_authenticated %}
                                 <li> 
                                 </li>
+                                {% if user.is_staff %}
                                 <li>
-                                    <a href="/accounts/profile">{{ user.username }} <span class="icon icon-person"></span></a></li>
+                                    <a href="/administrador"><span class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF">Vista de admin</span></a>
+                                </li>
+                                {%endif%}
+                                <li>
+                                    <a href="/accounts/profile">{{ user.username }} <span class="icon icon-person"></span></a>
+                                </li>
                                 {%else%}
-                                <li><a href="/accounts/unregistered">Anónimo <span class="icon icon-person"></span></a></li>
+                                <li><a href="/accounts/unregistered">Anónimo<span class="icon icon-person"></span></a></li>
                                 {%endif%}
                                 <li>
                                     <a href="{% url "cart:cart_detail" %}" class="site-cart">
@@ -51,9 +57,21 @@
         <nav class="site-navigation text-right text-md-center" role="navigation">
             <div class="container">
                 <ul class="site-menu js-clone-nav d-none d-md-block">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Inicio</a></li>
                     <li><a href="/shop">Catálogo</a></li>
                     <li><a href="/order/search">Seguimiento de pedido</a></li>
+                    {% if request.path == '/shop/' %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categorías
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for category in categories %}
+                                <a class="dropdown-item" href="{% url 'shop:product_list' %}?category={{ category.slug }}">{{ category.name }}</a>
+                                {% endfor %}
+                                <a class="dropdown-item" href="{% url 'shop:product_list' %}">Todas</a>
+                            </div>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

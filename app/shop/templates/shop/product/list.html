@@ -9,16 +9,17 @@
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Catálogo</strong></div>
+            <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Catálogo</strong></div>
         </div>
     </div>
 </div>
+
 
 <div class="site-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-9 order-2">
-                <form method="GET" action="{% url 'shop:product_list' %}">                    
+                <form method="GET" action="{% url 'shop:product_list' %}">
                     <input type="text" name="q" placeholder="Buscar cursos" class="form-control mb-3" value="{{ request.GET.q }}">
                 </form>
                 <div class="row mb-5">
@@ -70,16 +71,7 @@
             </div>
             <div class="col-md-3 order-1 mb-5 mb-md-0">
                 <div class="border p-4 rounded mb-4">
-                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categorías</h3>
                     <form method="get">
-                        <ul class="list-unstyled mb-0">
-                            {% for c in categories %}
-                            <li>
-                                <input type="checkbox" name="category" value="{{ c.slug }}" {% if category and category.slug == c.slug %}checked{% endif %}>
-                                <label for="category">{{ c.name }}</label>
-                            </li>
-                            {% endfor %}
-                        </ul>
                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Duraciones</h3>
                         <ul class="list-unstyled mb-0">
                             {% for d in durations %}

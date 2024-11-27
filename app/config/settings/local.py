@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'coupons.apps.CouponsConfig',
     'accounts',
     'escaparate',
+    'my_admin',
 ]
 
 MIDDLEWARE = [
