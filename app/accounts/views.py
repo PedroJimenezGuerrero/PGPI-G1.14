@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, logout, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+
+from order.models import Order
 from .forms import EditProfileForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
@@ -98,7 +100,11 @@ def signup(request):
         
 
 def profile(request):
-    return render(request,'user/profile.html')
+    context = {}
+    user_email = request.user.email
+    user_orders = Order.objects.filter(email=user_email)
+    context['orders'] = user_orders
+    return render(request,'user/profile.html', context)
 
 def logout_view(request):
     logout(request)
@@ -130,3 +136,12 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register/register.html', {'form': form})
+
+def search_order(request):
+    return render(request, 'order/search.html')
+'''
+@login_required
+def user_order(request):
+    user_order = Order.objects.filter(user=request.user)
+    return render(request, 'profile.html', {'orders': user_order})
+'''
