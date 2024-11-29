@@ -50,13 +50,14 @@ Order-details
           <p><strong>Code:</strong> {{ order.code }}</p>
           <p><strong>Dirección de entrega:</strong> {{ order.address }}, {{order.city}}, {{order.postal_code}}</p>
           <p><strong>Fecha del pedido:</strong> {{ order.created }}</p>
+          <p><strong>Precio total:</strong> {{ total_price }} €</p>
         </div>
         <div class="products-info">
           <h4>Productos</h4>
           <div class="products">
           {% for item in items %}
-          <p><strong></strong> {{ item.product }} x{{item.quantity}}</p>
-          {% endfor%}
+          <p><strong></strong> {{ item.product }} x{{item.quantity}} - {{ item.price }} €</p>
+          {% endfor %}
         </div>
       </div>
     {% elif request.method == "POST" %}

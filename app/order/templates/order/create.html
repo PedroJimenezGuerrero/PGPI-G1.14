@@ -14,17 +14,12 @@ Checkout
                 <span>{{ item.total_price }} €</span>
             </li>
             {% endfor %}
-            {% if cart|length > 0 %}
-                <li>
-                    <span> Reserva de curso 5,00 €</span>
-                </li>
-            {% endif %}
+            <li id="reembolso-item" style="display: none;">
+                1x Coste de reserva
+                <span>5.00 €</span>
+            </li>
         </ul>
-        {% if cart|length > 0 %}
-            <h4 style="color:black">Total: {{ cart.get_total_price|add:5.00|floatformat:2 }} €</h4>
-        {% else %}
-            <h4 style="color:black">Total: {{ cart.get_total_price|floatformat:2 }} €</h4>
-        {% endif %}
+        <h4 style="color:black">Total: <span id="total-price">{{ cart.get_total_price|floatformat:2 }} €</span></h4>
     </div>
     <form action="." method="post" class="order-form">
         {{ form|crispy }}
@@ -35,4 +30,24 @@ Checkout
         {% csrf_token %}
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethodField = document.querySelector('select[name="payment_method"]');
+        const totalPriceElement = document.getElementById('total-price');
+        const reembolsoItem = document.getElementById('reembolso-item');
+        const baseTotalPrice = parseFloat({{ cart.get_total_price|floatformat:2 }});
+
+        paymentMethodField.addEventListener('change', function() {
+            let totalPrice = baseTotalPrice;
+            if (paymentMethodField.value === 'contrareembolso') {
+                totalPrice += 5;
+                reembolsoItem.style.display = 'list-item';
+            } else {
+                reembolsoItem.style.display = 'none';
+            }
+            totalPriceElement.textContent = totalPrice.toFixed(2) + ' €';
+        });
+    });
+</script>
 {% endblock %}
