@@ -17,13 +17,18 @@
     <link rel="stylesheet" href="{% static "css/aos.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 <body>
     <div class="site-wrap">
         {% include 'shop/base/navbar.html' %}
-        {% block content %}
+        {% block contents %}
         {% endblock %}
+        {% if "admin" not in request.path %}
+            {% block content %}
+            {% endblock %}
+        {% endif %}
         {% include 'shop/base/footer.html' %}
     </div>
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
