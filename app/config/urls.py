@@ -12,7 +12,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace= 'accounts')),
     path('shop/', include('shop.urls', namespace='shop')), 
     path('', include('escaparate.urls', namespace='escaparate')), 
-    path('administrador', include('my_admin.urls')),
+    path('administrador', include('my_admin.urls', namespace='administrador')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
