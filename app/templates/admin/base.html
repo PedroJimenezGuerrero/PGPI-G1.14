@@ -8,7 +8,7 @@
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
   data-admin-utc-offset="{% now "Z" %}">
 
-  <link rel="stylesheet" type="text/css" 
+  <link rel="stylesheet" 
       href="{% block stylesheet %}{% static "css/base.css" %}{% endblock %}">
 <!-- Container -->
 <div id="container">
@@ -17,7 +17,9 @@
     <!-- Header -->
     <div id="header">
         <div id="branding">
-        {% block branding %}{% endblock %}
+        
+          <h1 id="site-name"><a href="{% url 'admin:index' %}">Página del administrador</a></h1>
+
         </div>
         {% block usertools %}
         {% if has_permission %}

@@ -20,7 +20,7 @@
                                 {% if user.is_authenticated %}
                                 <li> 
                                 </li>
-                                {% if user.is_staff %}
+                                {% if user.is_staff and request.path != "/admin/" %}
                                 <li>
                                     <a href="/admin"><span class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF">Vista de admin</span></a>
                                 </li>

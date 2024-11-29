@@ -8,14 +8,13 @@ html, body {
     height: 100%;
 }
 
-body {
+/* body {
     margin: 0;
     padding: 0;
     font-size: 14px;
-    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
     color: #333;
     background: #fff;
-}
+} */
 
 /* LINKS */
 
@@ -107,10 +106,10 @@ li ul {
     margin-bottom: 0;
 }
 
-li, dt, dd {
+/* li, dt, dd {
     font-size: 13px;
     line-height: 20px;
-}
+} */
 
 dt {
     font-weight: bold;
@@ -608,20 +607,20 @@ td ul.errorlist + input, td ul.errorlist + select, td ul.errorlist + textarea {
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background: #79aec8;
+    background: #ffffff;
     padding: 10px 40px;
     border: none;
     font-size: 14px;
-    color: #c4dce8;
+    color: #000000;
     text-align: left;
 }
 
 div.breadcrumbs a {
-    color: #fff;
+    color: #000000;
 }
 
 div.breadcrumbs a:focus, div.breadcrumbs a:hover {
-    color: #c4dce8;
+    color: #000d30;
 }
 
 /* ACTION ICONS */
@@ -732,8 +731,9 @@ table#change-history tbody th {
 /* PAGE STRUCTURE */
 
 #container {
+    margin: auto;
     position: relative;
-    width: 100%;
+    width: 50%;
     min-width: 980px;
     padding: 0;
     display: flex;
@@ -742,12 +742,15 @@ table#change-history tbody th {
 }
 
 #container > div {
-    flex-shrink: 0;
+    flex-shrink: 1;
 }
 
 #container > .main {
     display: flex;
     flex: 1 0 auto;
+    align-items: baseline;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .main > .content {
@@ -797,7 +800,7 @@ table#change-history tbody th {
 }
 
 .colSM #content-main {
-    float: right;
+    float: left;
 }
 
 .popup .colM {
@@ -813,13 +816,13 @@ table#change-history tbody th {
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
-    background: #417690;
-    color: #ffc;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
     overflow: hidden;
 }
 
 #header a:link, #header a:visited {
-    color: #fff;
+    color: #000000;
 }
 
 #header a:focus , #header a:hover {
@@ -835,11 +838,11 @@ table#change-history tbody th {
     margin: 0 20px 0 0;
     font-weight: 300;
     font-size: 24px;
-    color: #f5dd5d;
+    color: #000000;
 }
 
 #branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: #f5dd5d;
+    color: #000000;
 }
 
 #branding h2 {
@@ -852,6 +855,7 @@ table#change-history tbody th {
 
 #branding a:hover {
     text-decoration: none;
+    color: #7971ea;
 }
 
 #user-tools {
@@ -861,18 +865,19 @@ table#change-history tbody th {
     font-weight: 300;
     font-size: 11px;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-align: right;
 }
 
 #user-tools a {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0);
+    color: #000000;
 }
 
 #user-tools a:focus, #user-tools a:hover {
     text-decoration: none;
     border-bottom-color: #79aec8;
-    color: #79aec8;
+    color: #000000;
 }
 
 /* SIDEBAR */
