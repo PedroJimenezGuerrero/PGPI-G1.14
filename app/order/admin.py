@@ -12,3 +12,8 @@ class OrderAdmin(admin.ModelAdmin):
                     'created', 'updated','code']
     list_filter = ['paid', 'created', 'updated','code']
     inlines = [OrderItemInline]
+
+    readonly_fields = ['total_price']
+    
+    def total_price(self, obj):
+        return obj.get_total_cost()
