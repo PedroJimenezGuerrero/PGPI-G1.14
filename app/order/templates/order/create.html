@@ -14,6 +14,7 @@ Checkout
                 <span>{{ item.total_price }} €</span>
             </li>
             {% endfor %}
+            
             <li id="reembolso-item" style="display: none;">
                 1x Coste de reserva
                 <span>5.00 €</span>
@@ -26,15 +27,15 @@ Checkout
         <div style="display:flex; justify-content: center;">
             <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
         </div>
-        <div id="paypal-button-container"></div>
+        
+        <div id="paypal-button-container" style="display: block;"></div>
 
     <!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AQIfEdMolIem43n_KJR61hhhY5vbHSOtRb-3BRGur8Xo4KBslWUXO962BPkEEVQ1MwhntudZpd9ytbje&currency=EUR"></script>
 
     <script>
-       // const total_price = {{ price }}
-       var total = '{{ cart.get_total_price }}'
-       //console.log({{ cart.get_total_price }})
+       var total = '{{ cart.get_total_price }}';
+       
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
             style: {
@@ -45,7 +46,6 @@ Checkout
                     purchase_units: [{
                         amount:{
                             value: parseFloat(total).toFixed(2)
-                           // value: '0.1'
                         }
                     }]
                 });
@@ -67,95 +67,36 @@ Checkout
                         body: formData
                     })
                     .then(function(response) {
-                        // Si la respuesta no es JSON, asumimos que es HTML (redirección)
                         if (response.headers.get('content-type').includes('text/html')) {
                             return response.text().then(function(html) {
-                                // Crear un documento temporal y redirigir al usuario
                                 document.open();
                                 document.write(html);
                                 document.close();
                             });
                         }
-                    
-                        // Caso JSON: procesar como siempre
                         return response.json();
                     })
                     .then(function(data) {
-                        // Mostrar un mensaje de éxito o redirigir
                         console.log('Respuesta del servidor:', data);
-                        //alert('¡Transacción completada! Número de orden: ' + data);
-                        //window.location.href = '/created/'; // Redirigir a una página de confirmación
                     })
                     .catch(function(error) {
-                        console.log(error)
+                        console.log(error);
                         alert('Hubo un problema al procesar la orden.');
                     });
                 });
             }
-            /*
-            // Call your server to set up the transaction
-            createOrder: function(data, actions) {
-                return fetch('/order/create', {
-                    method: 'post'
-                }).then(function(res) {
-                    return res.json();
-                }).then(function(orderData) {
-                    return orderData.id;
-                });
-            },
-
-            // Call your server to finalize the transaction
-            onApprove: function(data, actions) {
-                return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
-                    method: 'post'
-                }).then(function(res) {
-                    return res.json();
-                }).then(function(orderData) {
-                    // Three cases to handle:
-                    //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-                    //   (2) Other non-recoverable errors -> Show a failure message
-                    //   (3) Successful transaction -> Show confirmation or thank you
-
-                    // This example reads a v2/checkout/orders capture response, propagated from the server
-                    // You could use a different API or structure for your 'orderData'
-                    var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
-
-                    if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
-                        return actions.restart(); // Recoverable state, per:
-                        // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
-                    }
-
-                    if (errorDetail) {
-                        var msg = 'Sorry, your transaction could not be processed.';
-                        if (errorDetail.description) msg += '\n\n' + errorDetail.description;
-                        if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
-                        return alert(msg); // Show a failure message (try to avoid alerts in production environments)
-                    }
-
-                    // Successful capture! For demo purposes:
-                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                    var transaction = orderData.purchase_units[0].payments.captures[0];
-                    alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-
-                    // Replace the above to show a success message within this page, e.g.
-                    // const element = document.getElementById('paypal-button-container');
-                    // element.innerHTML = '';
-                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                    // Or go to another URL:  actions.redirect('thank_you.html');
-                    
-                });
-            }
-                */
         }).render('#paypal-button-container');
     </script>
     {% csrf_token %}
-        <p><input class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;" type="submit" value="Finalizar"></p>
+        <p><input id = 'finish-button-container' class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF; display: none" type="submit" value="Finalizar"></p>
     </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const paymentMethodField = document.querySelector('select[name="payment_method"]');
+        const paypalButtonContainer = document.getElementById('paypal-button-container');
+        const finishButtonContainer = document.getElementById('finish-button-container');
         const totalPriceElement = document.getElementById('total-price');
         const reembolsoItem = document.getElementById('reembolso-item');
         const baseTotalPrice = parseFloat({{ cart.get_total_price|floatformat:2 }});
@@ -165,11 +106,18 @@ Checkout
             if (paymentMethodField.value === 'contrareembolso') {
                 totalPrice += 5;
                 reembolsoItem.style.display = 'list-item';
+                paypalButtonContainer.style.display = 'none'; // Ocultar el botón de PayPal
+                finishButtonContainer.style.display = 'block';
             } else {
                 reembolsoItem.style.display = 'none';
+                paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+                finishButtonContainer.style.display = paymentMethodField.value === 'tarjeta'? 'none' : 'block';
             }
             totalPriceElement.textContent = totalPrice.toFixed(2) + ' €';
         });
+
+        // Inicializar el estado del botón de PayPal
+        //paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
     });
 </script>
 {% endblock %}
