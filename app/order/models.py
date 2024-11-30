@@ -1,10 +1,12 @@
 from django.db import models
 from shop.models import Product
-import random
-import string
 import uuid
 
 class Order(models.Model):
+    PAYMENT_METHOD_CHOICES = [
+        ('tarjeta', 'Tarjeta'),
+        ('contrareembolso', 'Contra reembolso'),
+    ]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -14,8 +16,8 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-    #code = models.CharField(max_length=10, default=uuid.uuid4())
-    code = models.UUIDField(default = uuid.uuid4, editable = False)
+    code = models.UUIDField(default=uuid.uuid4, editable=False)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='tarjeta')
 
     class Meta:
         ordering = ('-created',)

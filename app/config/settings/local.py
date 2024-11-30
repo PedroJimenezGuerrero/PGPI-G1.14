@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
-    'coupons.apps.CouponsConfig',
     'accounts',
     'escaparate',
 ]
@@ -119,3 +118,11 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CART_SESSION_ID = 'cart'
 
 SESSION_SERIALIZER = 'cart.base.JSONSerializer'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dgf2020bachillerato@gmail.com'
+EMAIL_HOST_PASSWORD = 'wlzcjbfaroxlhber'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
