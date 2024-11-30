@@ -7,7 +7,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'category'
+        verbose_name = 'categorias'
         verbose_name_plural = 'categorias'
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Duration(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'duration'
+        verbose_name = 'duraciones'
         verbose_name_plural = 'duraciones'
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Product(models.Model):
     class Meta:
         ordering = ('name',)
         indexes = [models.Index(fields=['id', 'slug'], name='product_id_slug_idx')]
-        verbose_name = 'product'
+        verbose_name = 'productos'
         verbose_name_plural = 'productos'
 
     def __str__(self):

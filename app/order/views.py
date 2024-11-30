@@ -78,7 +78,7 @@ def order_create(request):
                 f'Hemos recibido tu pedido con el código {code}.\n\n'
                 f'Con un importe de {total_cost}€.\n\n'
                 f'Dirección de envío:\n{address}, {postal_code} {city}\n'
-                'Si tienes alguna duda, por favor, contacta con nosotros en AcademiaTerminus@cleon.com',
+                'Si tienes alguna duda, por favor, contacta con nosotros en academiaterminus@gmail.com',
                 to=[username_email]
             )
             email.fail_silently = False
