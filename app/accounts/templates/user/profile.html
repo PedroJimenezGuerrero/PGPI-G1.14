@@ -48,7 +48,7 @@ Usuario
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+            <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong
                     class="text-black">Perfil</strong></div>
         </div>
     </div>
@@ -73,6 +73,7 @@ Usuario
       <div class="pedidos-usuario">
         {% for order in orders %}
         <p>{{ order.code }}</p>
+        <hr style="width:60%; background-color:black">
         {% endfor%}
       </div>
       <a href="/order/search" class="bt-search" style="border-radius:5px; background-color:blue; color:white; display:block; margin-top: 20px; width: 200px; margin-right:20x">Sigue tu pedido</a>

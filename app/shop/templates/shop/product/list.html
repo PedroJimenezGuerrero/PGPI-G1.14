@@ -9,16 +9,17 @@
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Tienda</strong></div>
+            <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Catálogo</strong></div>
         </div>
     </div>
 </div>
+
 
 <div class="site-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-9 order-2">
-                <form method="GET" action="{% url 'shop:product_list' %}">                    
+                <form method="GET" action="{% url 'shop:product_list' %}">
                     <input type="text" name="q" placeholder="Buscar cursos" class="form-control mb-3" value="{{ request.GET.q }}">
                 </form>
                 <div class="row mb-5">
@@ -34,12 +35,17 @@
                                 <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
                                 <p class="text-primary font-weight-bold">{{ product.price }} €</p>
                                 <hr>
+                                {% if not product.available %}
+                                    <p style="font-size:1rem; background-color:red;color:white;border-radius:5px">Agotado</p>
+                                {% endif %}
+                                {% if product.available %}
                                 <form action="{% url 'cart:cart_add' product.id %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="update" value="False">
                                     <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir al carrito">
                                 </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -55,7 +61,7 @@
                                 {% endif %}
                                 {% for num in products.paginator.page_range %}
                                     {% if products.number == num %}
-                                        <li class="active"><span>{{ num }}</span></li>
+                                        <li class="active" ><span style="background-color: #0088FF">{{ num }}</span></li>
                                     {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
                                         <li><a href="?page={{ num }}">{{ num }}</a></li>
                                     {% endif %}
@@ -70,16 +76,7 @@
             </div>
             <div class="col-md-3 order-1 mb-5 mb-md-0">
                 <div class="border p-4 rounded mb-4">
-                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categorías</h3>
                     <form method="get">
-                        <ul class="list-unstyled mb-0">
-                            {% for c in categories %}
-                            <li>
-                                <input type="checkbox" name="category" value="{{ c.slug }}" {% if category and category.slug == c.slug %}checked{% endif %}>
-                                <label for="category">{{ c.name }}</label>
-                            </li>
-                            {% endfor %}
-                        </ul>
                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Duraciones</h3>
                         <ul class="list-unstyled mb-0">
                             {% for d in durations %}

@@ -36,6 +36,7 @@ class Product(models.Model):
                                  on_delete=models.CASCADE)
     duration = models.ForeignKey(Duration, related_name='product_durations',
                                  on_delete=models.CASCADE)
+    fecha_inicio = models.DateField(default='2021-01-01')
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)

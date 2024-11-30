@@ -4,11 +4,12 @@
 {% block title %}
 {{ product.name }}
 {% endblock %}
+
 {% block content %}
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ product.name }}</strong></div>
+          <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ product.name }}</strong></div>
         </div>
       </div>
     </div>
@@ -21,33 +22,35 @@
               <div style="border: 1px black solid;">
                 <p style="color: black; display: flex; justify-content: center; font-size: 1.5rem;">{{ product.price }} €</strong></p>
               </div>
+              {% if product.available %}
               <form action="{% url "cart:cart_add" product.id %}" method="post">
                 {% csrf_token %}
                 {{ cart_product_form|crispy }}
-                <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Add to cart">
+                <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir al carrito">
               </form>
+              {% endif %}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" style="color:black">
             <h2 class="text-black mr-2">{{ product.name }}</h2>
             <br></br>
             <p>{{ product.description|linebreaks }}</p>
             <br></br>
             <div>
-              <p>Duración: "Duracion"</p>
+              <p>Duración: {{ product.duration }}</p>
             </div>
             <br></br>
             <div>
-              <p>Fecha de inicio: "Fecha inicio"</p>
+              <p>Fecha de inicio: {{ product.fecha_inicio }}</p>
             </div>
             <br></br>
             <div style="background-color: #0088FF; border-radius: 10px; display:flex; justify-content:center; width: 50%; ">
               {% if product.available %}
-                <p style="color: white;font-size: 1.5rem;">Quedan plazas</strong></p>
-              {% endif %}
-              {% if not product.available %}
-                <p style="color: red;font-size: 1.5rem;">Agotado</strong></p>
+                <p style="color: white; font-size: 1.5rem;">Quedan plazas</strong></p>
               {% endif %}
             </div>
+            {% if not product.available %}
+                <p style="font-size:2rem; background-color:red;color:white;border-radius:5px;justify-content:center; display:flex">Agotado</p>
+              {% endif %}
             
             <div class="mt-5 col-md-5">
               
@@ -58,4 +61,5 @@
       </div>
     </div>
     </div>
+
 {% endblock %}
