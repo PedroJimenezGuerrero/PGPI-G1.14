@@ -25,7 +25,7 @@
         {% include 'shop/base/navbar.html' %}
         {% block contents %}
         {% endblock %}
-        {% if "admin" not in request.path %}
+        {% if "/admin/" not in request.path %}
             {% block content %}
             {% endblock %}
         {% endif %}
