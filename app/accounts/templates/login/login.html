@@ -68,7 +68,6 @@ Login
     <form class="form-signin" action="/accounts/login/singin/" method="POST">
         {% csrf_token %}
         <div class="{{errorclass}}" role="alert">{{error}}</div>
-      <img class="icon icon-person" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Entrar</h1>
       <label for="inputUsername" class="sr-only">Usuario o correo</label>
       <input type="text" id="inputUsername" class="form-control" placeholder="Username or email" required=True autofocus=True name="username">
