@@ -11,19 +11,114 @@ Checkout
             {% for item in cart %}
             <li>
                 {{ item.quantity }}x {{ item.product.name }}
-                <span>${{ item.total_price }}</span>
+                <span>{{ item.total_price }} €</span>
             </li>
             {% endfor %}
+            
+            <li id="reembolso-item" style="display: none;">
+                1x Coste de reserva
+                <span>5.00 €</span>
+            </li>
         </ul>
-        <h4 style="color:black">Total: {{ cart.get_total_price }} €</h4>
+        <h4 style="color:black">Total: <span id="total-price">{{ cart.get_total_price|floatformat:2 }} €</span></h4>
     </div>
     <form action="." method="post" class="order-form">
         {{ form|crispy }}
         <div style="display:flex; justify-content: center;">
             <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
         </div>
-        <p><input class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF;" type="submit" value="Finalizar"></p>
-        {% csrf_token %}
+        
+        <div id="paypal-button-container" style="display: block;"></div>
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AQIfEdMolIem43n_KJR61hhhY5vbHSOtRb-3BRGur8Xo4KBslWUXO962BPkEEVQ1MwhntudZpd9ytbje&currency=EUR"></script>
+
+    <script>
+       var total = '{{ cart.get_total_price }}';
+       
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+            style: {
+                layout: 'horizontal'
+            },
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount:{
+                            value: parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Capturar datos del formulario
+                    var formData = new FormData(document.querySelector('.order-form'));
+    
+                    // Añadir información de la transacción de PayPal
+                    formData.append('payer_name', details.payer.name.given_name + ' ' + details.payer.name.surname);
+                    formData.append('payer_email', details.payer.email_address);
+                    formData.append('status', details.status);
+                    formData.append('total_price', total); // Asegurarte de que el total sea enviado
+                    formData.set('paid', new Boolean(true))
+    
+                    // Enviar los datos al servidor
+                    fetch('/order/create/', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(function(response) {
+                        if (response.headers.get('content-type').includes('text/html')) {
+                            return response.text().then(function(html) {
+                                document.open();
+                                document.write(html);
+                                document.close();
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        console.log('Respuesta del servidor:', data);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        alert('Hubo un problema al procesar la orden.');
+                    });
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+    {% csrf_token %}
+        <p><input id = 'finish-button-container' class="btn btn-primary btn-sm btn-block" style="background-color: #0088FF; display: none" type="submit" value="Finalizar compra"></p>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethodField = document.querySelector('select[name="payment_method"]');
+        const paypalButtonContainer = document.getElementById('paypal-button-container');
+        const finishButtonContainer = document.getElementById('finish-button-container');
+        const totalPriceElement = document.getElementById('total-price');
+        const reembolsoItem = document.getElementById('reembolso-item');
+        const baseTotalPrice = parseFloat({{ cart.get_total_price|floatformat:2 }});
+
+        paymentMethodField.addEventListener('change', function() {
+            let totalPrice = baseTotalPrice;
+            if (paymentMethodField.value === 'contrareembolso') {
+                totalPrice += 5;
+                reembolsoItem.style.display = 'list-item';
+                paypalButtonContainer.style.display = 'none'; // Ocultar el botón de PayPal
+                finishButtonContainer.style.display = 'block';
+            } else {
+                reembolsoItem.style.display = 'none';
+                paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+                finishButtonContainer.style.display = paymentMethodField.value === 'tarjeta'? 'none' : 'block';
+            }
+            totalPriceElement.textContent = totalPrice.toFixed(2) + ' €';
+        });
+
+        // Inicializar el estado del botón de PayPal
+        //paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+    });
+</script>
 {% endblock %}

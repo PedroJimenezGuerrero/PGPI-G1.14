@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
-from coupons.forms import CouponApplyForm
+from django.contrib import messages
 
 @require_POST
 def cart_add(request, product_id):
@@ -25,31 +25,18 @@ def cart_detail(request):
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'override': True})
-    coupon_apply_form = CouponApplyForm()
-    return render(request, 'cart/detail.html', {'cart': cart, 'coupon_apply_form': coupon_apply_form})
+    return render(request, 'cart/detail.html', {'cart': cart})
 
-from django.shortcuts import redirect
-from django.contrib import messages
-from .cart import Cart  # Asegúrate de usar la clase que maneja tu carrito
-
-def cart_update(request, product_id):
+@require_POST
+def cart_update(request):
     cart = Cart(request)
-    action = request.POST.get("action")
-    quantity = request.POST.get("quantity")
-
-    try:
-        quantity = int(quantity)
-        if action == "increase":  # Incrementa la cantidad
-            cart.add(product_id, quantity=1, override_quantity=False)
-        elif action == "decrease":  # Decrementa la cantidad
-            cart.add(product_id, quantity=-1, override_quantity=False)
-        else:  # Actualiza con el valor manual ingresado
-            if quantity > 0:
-                cart.add(product_id, quantity=quantity, override_quantity=True)
-            else:
-                messages.error(request, "La cantidad debe ser mayor a 0.")
-    except ValueError:
-        messages.error(request, "Cantidad inválida.")
-
+    for item in cart:
+        product_id = str(item['product'].id)
+        quantity = request.POST.get(f'quantity_{product_id}')
+        if quantity:
+            try:
+                quantity = int(quantity)
+                cart.add(product=item['product'], quantity=quantity, update_quantity=True)
+            except ValueError:
+                messages.error(request, "Cantidad inválida.")
     return redirect('cart:cart_detail')
-

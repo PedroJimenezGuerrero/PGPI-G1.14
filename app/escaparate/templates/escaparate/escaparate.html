@@ -1,0 +1,55 @@
+{% extends "shop/base/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %}Productos{% endif %}
+{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"> <strong class="text-black">Inicio</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <a>
+            <img src="/media/products/2024/11/logo/banner.png" alt="Academia Terminus" style="max-height: 500px; display: block; margin-left: auto; margin-right: auto;">
+        </a>
+        <br></br>
+        <h1 style="color:black">Top Cursos</h1>
+        <br></br>
+        <div class="row mb-5"  style="justify-content:center">
+            <div class="col-md-9 order-2">
+                <div class="row mb-5">
+                    {% for product in products %}
+                    <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                        <div class="block-4 text-center border">
+                            <figure class="block-4-image">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.image.url}}" alt="Image placeholder" class="img-fluid" style="height: 10vw;">
+                                </a>
+                            </figure>
+                            <div class="block-4-text p-4">
+                                <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+                                <p class="text-primary font-weight-bold">{{ product.price }} €</p>
+                                <hr>
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="update" value="False">
+                                    <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir al carrito">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
