@@ -1,0 +1,45 @@
+{% load i18n %}
+
+{% if app_list %}
+  <div style="display:flex; flex-direction:row; gap:2rem; justify-content:center">
+  {% for app in app_list %}
+    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+      <table>
+          {% for model in app.models %}
+            {% with model_name=model.object_name|lower %}
+            {% if model.name != "Grupos" %}
+              <tr style="background-color:white; flex: 1 1 10px;" class="model-{{ model_name }}{% if model.admin_url in request.path|urlencode %} current-model{% endif %}">
+                <th scope="row" id="{{ app.app_label }}-{{ model_name }}">
+                  {% if model.admin_url %}
+                    <a style=" text-color:black; color:black" href="{{ model.admin_url }}"{% if model.admin_url in request.path|urlencode %} aria-current="page"{% endif %}>{{ model.name }}</a>
+                  {% else %}
+                    {{ model.name }}
+                  {% endif %}
+                </th>
+
+                {% if model.add_url %}
+                  <td><a style=" text-color:black; color:black" href="{{ model.add_url }}" class="addlink" aria-describedby="{{ app.app_label }}-{{ model_name }}">{% translate 'Add' %}</a></td>
+                {% else %}
+                  <td></td>
+                {% endif %}
+
+                {% if model.admin_url and show_changelinks %}
+                  {% if model.view_only %}
+                    <td><a style=" text-color:black; color:black" href="{{ model.admin_url }}" class="viewlink" aria-describedby="{{ app.app_label }}-{{ model_name }}">{% translate 'View' %}</a></td>
+                  {% else %}
+                    <td><a style=" text-color:black; color:black" href="{{ model.admin_url }}" class="changelink" aria-describedby="{{ app.app_label }}-{{ model_name }}">{% translate 'Change' %}</a></td>
+                  {% endif %}
+                {% elif show_changelinks %}
+                  <td></td>
+                {% endif %}
+              </tr>
+            {% endif %}
+            {% endwith %}
+          {% endfor %}
+      </table>
+    </div>
+  {% endfor %}
+  </div>
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}

@@ -1,0 +1,10 @@
+{% load i18n admin_urls %}
+{% block object-tools-items %}
+<li>
+    {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+    <a style="background-color:#0088ff; border-radius:5px"href="{% add_preserved_filters history_url %}" class="historylink">{% translate "Historial" %}</a>
+</li>
+
+{% endblock %}
+
+

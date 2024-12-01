@@ -4,7 +4,9 @@ import dotenv
 import os
 import dj_database_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+print( "base dir path", BASE_DIR)
 
 SECRET_KEY = '5yo93-8a^%idwkzxz@6gq67p2ml#sraf4=7#pqg+28mv)koo@m'
 
@@ -30,7 +32,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
-    'coupons.apps.CouponsConfig',
+    'accounts',
+    'escaparate',
 ]
 
 MIDDLEWARE = [
@@ -66,14 +69,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# load environment variables from .env
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
-
-# load database from the DATABASE_URL environment variable
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config()
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'config', 'db.sqlite3'),
+    }
+}
 
 
 # Password validation
@@ -95,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
 
 TIME_ZONE = 'UTC'
 
@@ -111,11 +113,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'shop',  'static'),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'config', 'media')
 MEDIA_URL = '/media/'
 
 
@@ -123,3 +125,13 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CART_SESSION_ID = 'cart'
+
+SESSION_SERIALIZER = 'cart.base.JSONSerializer'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'academiaterminus@gmail.com'
+EMAIL_HOST_PASSWORD = 'pniihveczkdhzyhu'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
