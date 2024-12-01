@@ -10,7 +10,7 @@ SECRET_KEY = '5yo93-8a^%idwkzxz@6gq67p2ml#sraf4=7#pqg+28mv)koo@m'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['academia-terminus.onrender.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
