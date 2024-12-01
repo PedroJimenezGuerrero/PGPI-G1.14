@@ -25,8 +25,10 @@ def order_create(request):
             }
             form = OrderCreateForm(form_data, user=request.user)
             if form.is_valid():
-                # Crear la orden
+                order = form.save(commit=False)  # Evitar guardar de inmediato
                 order = form.save()
+                order.paid = True
+                order.save()
                 for item in cart:
                     price += item['quantity'] * item['price']
                     OrderItem.objects.create(
@@ -92,16 +94,16 @@ def order_create(request):
 def search(request):
     context = {}
     if request.method == "POST":
-        order_code = request.POST.get("order_code")
         try:
             order = Order.objects.get(code=order_code)
+            order_code = request.POST.get("order_code")
             total_price = order.get_total_cost()
             if order.payment_method == 'contrareembolso':
                 total_price += 5
             context['order'] = order
             context['items'] = order.items.all()
             context['total_price'] = total_price
-        except Order.DoesNotExist:          
+        except:          
             context['error'] = "No existe pedido con dicho localizador"
 
     return render(request, "order/search.html", context)
