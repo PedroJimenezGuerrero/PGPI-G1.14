@@ -11,7 +11,12 @@ class OrderCreateForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city', 'payment_method']
+        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city', 'payment_method', 'paid']
+        widgets = {
+            'paid': forms.HiddenInput(
+                attrs={
+                    'required': False
+                })}
         labels = {
             'first_name': 'Nombre',
             'last_name': 'Apellido',
@@ -19,5 +24,6 @@ class OrderCreateForm(forms.ModelForm):
             'address': 'Dirección',
             'postal_code': 'Código Postal',
             'city': 'Ciudad',
-            'payment_method': 'Método de Pago'
+            'payment_method': 'Método de Pago',
+            'paid': 'Pagado'
         }

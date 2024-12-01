@@ -60,6 +60,7 @@ Checkout
                     formData.append('payer_email', details.payer.email_address);
                     formData.append('status', details.status);
                     formData.append('total_price', total); // Asegurarte de que el total sea enviado
+                    formData.set('paid', new Boolean(true))
     
                     // Enviar los datos al servidor
                     fetch('/order/create/', {
