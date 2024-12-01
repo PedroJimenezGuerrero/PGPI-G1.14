@@ -14,7 +14,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
-    '.herokuapp.com'
+    '.herokuapp.com',
+    'academia-terminus.onrender.com'
 ]
 
 # Application definition
