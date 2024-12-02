@@ -8,7 +8,7 @@ print( "base dir path", BASE_DIR)
 
 SECRET_KEY = '5yo93-8a^%idwkzxz@6gq67p2ml#sraf4=7#pqg+28mv)koo@m'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["academia-terminus-e36c.onrender.com", "localhost", "127.0.0.1"]
 
