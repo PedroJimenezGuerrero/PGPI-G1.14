@@ -127,10 +127,10 @@ EMAIL_HOST_PASSWORD = 'pniihveczkdhzyhu'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'https://academia-terminus-e36c.onrender.com'
-],
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:8000',
+#     'https://academia-terminus-e36c.onrender.com'
+# ],
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
