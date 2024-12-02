@@ -137,4 +137,8 @@ CORS_ORIGIN_WHITELIST = [
     'https://academia-terminus-e36c.onrender.com'
 ]
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
+CSRF_TRUSTED_ORIGINS = [ 
+                        'https://academia-terminus-e36c.onrender.com', 
+                        ]
+
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
