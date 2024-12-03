@@ -142,9 +142,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 CSRF_TRUSTED_ORIGINS = [ 
-    'https://academia-terminus-e36c.onrender.com', 
-    '0.0.0.0',
-    '*',
+    'https://academia-terminus-e36c.onrender.com',
     ]
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
