@@ -10,7 +10,15 @@ SECRET_KEY = '5yo93-8a^%idwkzxz@6gq67p2ml#sraf4=7#pqg+28mv)koo@m'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["academia-terminus-e36c.onrender.com", "localhost", "127.0.0.1", 'onrender', 'academia-terminus-e36c']
+ALLOWED_HOSTS = [
+    "academia-terminus-e36c.onrender.com", 
+    "localhost", 
+    "127.0.0.1", 
+    'onrender', 
+    'academia-terminus-e36c',
+    '0.0.0.0',
+    '*'
+    ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -130,7 +138,7 @@ EMAIL_USE_SSL = False
 # CSRF_TRUSTED_ORIGINS = [
 #     'http://localhost:8000',
 #     'https://academia-terminus-e36c.onrender.com'
-# ],
+# ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
@@ -139,6 +147,8 @@ CORS_ORIGIN_WHITELIST = [
 
 CSRF_TRUSTED_ORIGINS = [ 
                         'https://academia-terminus-e36c.onrender.com', 
+                        '0.0.0.0',
+                        '*',
                         ]
 
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
