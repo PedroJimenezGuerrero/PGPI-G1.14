@@ -72,7 +72,6 @@ def search(request):
             order_code = request.POST.get("order_code")
             order = Order.objects.get(code=order_code)
             total_price = order.get_total_cost()
-            order_paid = order.paid
             not_paid = False
             if order.payment_method == 'contrareembolso':
                 not_paid = True
@@ -86,4 +85,17 @@ def search(request):
 
     return render(request, "order/search.html", context)
 
+def order_modification(request):
+    order_code = request.GET.get('order_code')
+    if request.method == "POST":
+        #if request.method == "POST":
+        #order_code = request.POST.get("order_code")
+        print(order_code)
+        order = Order.objects.get(code=order_code)
+        order.address = request.POST.get('address')
+        order.postal_code = request.POST.get('postal_code')
+        order.city = request.POST.get('city')
+        order.save()
+        return render(request, "order/modified.html", {"order_code": order_code})
+    return render(request, "order/modify.html", {"order_code": order_code})
 
