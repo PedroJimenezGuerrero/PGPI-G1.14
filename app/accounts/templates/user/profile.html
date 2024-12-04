@@ -73,6 +73,8 @@ Usuario
       <div class="pedidos-usuario">
         {% for order in orders %}
         <p>{{ order.code }}</p>
+        <a href="/order/modify/?order_code={{ order.code }}" class="bt-search" style="border-radius:5px; background-color:#FFFFFF; color:#0088ff; display:block; margin-top: 20px; width: 200px; margin-right:20x">Modificar datos de entrega</a>
+        <!--<a href="/order/modify" class="bt-modify" style="border-radius:5px; background-color:#0088ff; color:white; display:block; margin-top: 20px; width: 200px; margin-right:20x">Editar datos de entrega</a>!-->
         <hr style="width:60%; background-color:black">
         {% endfor%}
       </div>
