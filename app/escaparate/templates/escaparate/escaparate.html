@@ -20,6 +20,10 @@
             <img src="/media/products/2024/11/logo/banner.png" alt="Academia Terminus" style="max-height: 500px; display: block; margin-left: auto; margin-right: auto;">
         </a>
         <br></br>
+        <form method="GET" action="{% url 'shop:product_list' %}">
+            <input type="text" name="q" placeholder="Buscar cursos" class="form-control mb-3" value="{{ request.GET.q }}">
+        </form>
+        <br></br>
         <h1 style="color:black">Top Cursos</h1>
         <br></br>
         <div class="row mb-5"  style="justify-content:center">
