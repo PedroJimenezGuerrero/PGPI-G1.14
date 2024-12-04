@@ -20,6 +20,8 @@ def product_list(request):
     max_price = request.GET.get('max_price')
     query = request.GET.get('q')
 
+    query = request.GET.get('q')
+
 
     products = Product.objects.all()
 
