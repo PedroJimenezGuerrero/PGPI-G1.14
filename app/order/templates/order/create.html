@@ -23,6 +23,7 @@ Checkout
         <h4 style="color:black">Total: <span id="total-price">{{ cart.get_total_price|floatformat:2 }} €</span></h4>
     </div>
     <form action="." method="post" class="order-form">
+        {% csrf_token %}
         {{ form|crispy }}
         <div style="display:flex; justify-content: center;">
             <b style="color:red;">Recuerde que no se admiten devoluciones.</b>
@@ -104,21 +105,23 @@ Checkout
 
         paymentMethodField.addEventListener('change', function() {
             let totalPrice = baseTotalPrice;
-            if (paymentMethodField.value === 'contrareembolso') {
+            if (paymentMethodField.value === 'tarjeta') {
+                reembolsoItem.style.display = 'none';
+                paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+                finishButtonContainer.style.display = paymentMethodField.value === 'tarjeta'? 'none' : 'block';
+                
+            } else {
                 totalPrice += 5;
                 reembolsoItem.style.display = 'list-item';
                 paypalButtonContainer.style.display = 'none'; // Ocultar el botón de PayPal
                 finishButtonContainer.style.display = 'block';
-            } else {
-                reembolsoItem.style.display = 'none';
-                paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
-                finishButtonContainer.style.display = paymentMethodField.value === 'tarjeta'? 'none' : 'block';
             }
             totalPriceElement.textContent = totalPrice.toFixed(2) + ' €';
         });
 
         // Inicializar el estado del botón de PayPal
-        //paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+        paypalButtonContainer.style.display = paymentMethodField.value === 'tarjeta' ? 'block' : 'none';
+        finishButtonContainer.style.display = paymentMethodField.value === 'tarjeta'? 'none' : 'block';
     });
 </script>
 {% endblock %}
