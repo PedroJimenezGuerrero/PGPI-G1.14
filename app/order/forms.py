@@ -9,10 +9,8 @@ class OrderCreateForm(forms.ModelForm):
             self.fields['email'].initial = user.email
             self.fields['first_name'].initial = user.first_name
             self.fields['last_name'].initial = user.last_name
-            if user.cliente:
+            if hasattr(user, 'cliente'):
                 self.fields['payment_method'].initial = user.cliente.método_pago
-                
-                print(self.fields['payment_method'].initial)
                 self.fields['address'].initial = user.cliente.dirección
                 self.fields['postal_code'].initial = user.cliente.código_postal
                 self.fields['city'].initial = user.cliente.ciudad
