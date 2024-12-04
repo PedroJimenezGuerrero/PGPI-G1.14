@@ -51,6 +51,11 @@ Order-details
           <p><strong>Dirección de entrega:</strong> {{ order.address }}, {{order.city}}, {{order.postal_code}}</p>
           <p><strong>Fecha del pedido:</strong> {{ order.created }}</p>
           <p><strong>Precio total:</strong> {{ total_price }} €</p>
+          {% if not_paid %}
+          <p style="color:red"><strong>NO PAGADO</strong></p>
+          {% elif not_paid == False %}
+          <p style="color:green"><strong>PAGADO</strong></p>
+          {% endif %}
         </div>
         <div class="products-info">
           <h4>Productos</h4>
@@ -58,6 +63,9 @@ Order-details
           {% for item in items %}
           <p><strong></strong> {{ item.product }} x{{item.quantity}} - {{ item.price }} €</p>
           {% endfor %}
+          {% if not_paid%}
+          <p><strong></strong> Gastos de contrareembolso - 5 €</p>
+          {% endif %}
         </div>
       </div>
     {% elif request.method == "POST" %}

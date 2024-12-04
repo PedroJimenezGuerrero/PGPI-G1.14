@@ -71,13 +71,16 @@ def search(request):
         try:
             order_code = request.POST.get("order_code")
             order = Order.objects.get(code=order_code)
-            order_code = request.POST.get("order_code")
             total_price = order.get_total_cost()
+            order_paid = order.paid
+            not_paid = False
             if order.payment_method == 'contrareembolso':
+                not_paid = True
                 total_price += 5
             context['order'] = order
             context['items'] = order.items.all()
             context['total_price'] = total_price
+            context['not_paid'] = not_paid
         except:          
             context['error'] = "No existe pedido con dicho localizador"
 
