@@ -67,6 +67,18 @@ Usuario
         <a style="color:black; font-size:1.5rem">Usuario: {{ user.username }}</a>
         <br>
         <a style="color:black; font-size:1.5rem">Correo: {{ user.email }}</a>
+        <br>
+        <br>
+        <h1 style="color:black"><u>Datos Personales</u></h1>
+        <a style="color:black; font-size:1.5rem">Dirección: {{ user.cliente.dirección }}</a>
+        <br>
+        <a style="color:black; font-size:1.5rem">Ciudad: {{ user.cliente.ciudad }}</a>
+        <br>
+        <a style="color:black; font-size:1.5rem">Código postal: {{ user.cliente.código_postal }}</a>
+        <br>
+        <a style="color:black; font-size:1.5rem">Método de pago preferido: {{ user.cliente.método_pago }}</a>
+        <br>
+        
     </div>
     <div>
       <h1 style="color:black"><u>Mis Pedidos</u></h1>
