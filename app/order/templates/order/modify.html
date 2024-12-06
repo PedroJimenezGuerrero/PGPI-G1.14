@@ -44,6 +44,7 @@ Order-modification
       <h2 class="h3 mb-3 font-weight-normal">Introduzca sus nuevos datos de envío</h2>
       <input type="hidden" id="order_code" name="order_code" value="{{ order_code}}">
 
+      <b style = 'display: flex'>Dirección</b>
       <label for="address" class="sr-only" >Direccion</label>
       {% if user.cliente.dirección %}
       <input type="text" id="address" name="address" style= required value = {{ user.cliente.dirección }}>
@@ -51,13 +52,15 @@ Order-modification
       <input type="text" id="address" name="address" style= required placeholder="Dirección">
       {% endif %}
 
+      <b style = 'display: flex'>Código Postal</b>
       <label for="postal_code" class="sr-only" >CP</label>
       {% if user.cliente.código_postal %}
       <input type="text" id="postal_code" name="postal_code" style= required value = {{ user.cliente.código_postal}}>
       {% else %}
       <input type="text" id="postal_code" name="postal_code" style= required placeholder="Código Postal">
       {% endif %}
-  
+
+      <b style = 'display: flex'>Ciudad</b>
       <label for="city" class="sr-only" >Ciudad</label>
       {% if user.cliente.ciudad %}
       <input type="text" id="postal_code" name="postal_code" style= required value = {{ user.cliente.ciudad}}>
