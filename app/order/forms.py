@@ -7,7 +7,18 @@ class OrderCreateForm(forms.ModelForm):
         super(OrderCreateForm, self).__init__(*args, **kwargs)
         if user and user.is_authenticated:
             self.fields['email'].initial = user.email
-        self.fields['payment_method'].initial = 'tarjeta'  # Establecer el valor por defecto
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+            if hasattr(user, 'cliente'):
+                self.fields['payment_method'].initial = user.cliente.método_pago
+                self.fields['address'].initial = user.cliente.dirección
+                self.fields['postal_code'].initial = user.cliente.código_postal
+                self.fields['city'].initial = user.cliente.ciudad
+        
+        # self.fields['payment_method'].initial = 'tarjeta'  # Establecer el valor por defecto
+        # if self.instance and hasattr(self.instance, 'cliente'):
+        #     self.fields['address'].initial = self.instance.cliente.dirección
+        #     self.fields['payment_method'].initial = self.instance.cliente.método_pago
 
     class Meta:
         model = Order

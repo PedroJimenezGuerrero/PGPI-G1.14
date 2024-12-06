@@ -71,16 +71,31 @@ def search(request):
         try:
             order_code = request.POST.get("order_code")
             order = Order.objects.get(code=order_code)
-            order_code = request.POST.get("order_code")
             total_price = order.get_total_cost()
+            not_paid = False
             if order.payment_method == 'contrareembolso':
+                not_paid = True
                 total_price += 5
             context['order'] = order
             context['items'] = order.items.all()
             context['total_price'] = total_price
+            context['not_paid'] = not_paid
         except:          
             context['error'] = "No existe pedido con dicho localizador"
 
     return render(request, "order/search.html", context)
 
+def order_modification(request):
+    order_code = request.GET.get('order_code')
+    if request.method == "POST":
+        #if request.method == "POST":
+        #order_code = request.POST.get("order_code")
+        print(order_code)
+        order = Order.objects.get(code=order_code)
+        order.address = request.POST.get('address')
+        order.postal_code = request.POST.get('postal_code')
+        order.city = request.POST.get('city')
+        order.save()
+        return render(request, "order/modified.html", {"order_code": order_code})
+    return render(request, "order/modify.html", {"order_code": order_code})
 
