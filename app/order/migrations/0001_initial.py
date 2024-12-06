@@ -2,6 +2,9 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+import random
+import string
+import uuid
 
 
 class Migration(migrations.Migration):
@@ -26,6 +29,8 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('paid', models.BooleanField(default=False)),
+                #('code', models.CharField(max_length=10, default=uuid.uuid4())),
+                ('code', models.CharField(default = uuid.uuid4, editable = False)),
             ],
             options={
                 'ordering': ('-created',),

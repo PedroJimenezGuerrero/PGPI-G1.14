@@ -7,19 +7,36 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'categorias'
+        verbose_name_plural = 'categorias'
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('shop:product_list_by_category', args=[self.slug])
+    
+class Duration(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, unique=True)
 
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'duraciones'
+        verbose_name_plural = 'duraciones'
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('shop:product_list_by_duration', args=[self.slug])
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products',
+    category = models.ForeignKey(Category, related_name='product_categories',
                                  on_delete=models.CASCADE)
+    duration = models.ForeignKey(Duration, related_name='product_durations',
+                                 on_delete=models.CASCADE)
+    fecha_inicio = models.DateField(default='2021-01-01')
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
@@ -31,10 +48,21 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
-        indexes = [models.Index(fields=['id', 'slug'], name='id_idx')]
+        indexes = [models.Index(fields=['id', 'slug'], name='product_id_slug_idx')]
+        verbose_name = 'productos'
+        verbose_name_plural = 'productos'
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.id, self.slug])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': float(self.price),
+            # add other fields as needed
+        }
+

@@ -4,75 +4,62 @@
 {% block title %}
 {{ product.name }}
 {% endblock %}
+
 {% block content %}
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ product.name }}</strong></div>
+          <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ product.name }}</strong></div>
         </div>
       </div>
-    </div>  
+    </div>
 
     <div class="site-section">
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img src="{{ product.image.url }}" alt="Image" class="img-fluid">
-          </div>
-          <div class="col-md-6">
-            <h2 class="text-black mr-2">{{ product.name }}</h2>
-            <p>{{ product.description|linebreaks }}</p>
-            <p><strong class="text-primary h4">${{ product.price }}</strong></p>
-            <div class="mt-5 col-md-5">
+              <img src="{{ product.image.url }}" alt="Image" class="img-fluid">
+              <div style="border: 1px black solid;">
+                <p style="color: black; display: flex; justify-content: center; font-size: 1.5rem;">{{ product.price }} €</strong></p>
+              </div>
+              {% if product.available %}
               <form action="{% url "cart:cart_add" product.id %}" method="post">
                 {% csrf_token %}
                 {{ cart_product_form|crispy }}
-                <input type="submit" class="buy-now btn btn-sm btn-primary" value="Add to cart">
+                <input type="submit" class="buy-now btn btn-sm btn-primary" style="background-color: #0088FF" value="Añadir al carrito">
               </form>
+              {% endif %}
+          </div>
+          <div class="col-md-6" style="color:black">
+            <h2 class="text-black mr-2">{{ product.name }}</h2>
+            <br></br>
+            <p>{{ product.description|linebreaks }}</p>
+            <br></br>
+            <div>
+              <p>Duración: {{ product.duration }}</p>
+            </div>
+            <br></br>
+            <div>
+              <p>Fecha de inicio: {{ product.fecha_inicio }}</p>
+            </div>
+            <br></br>
+            <div style="background-color: #0088FF; border-radius: 10px; display:flex; justify-content:center; width: 50%; ">
+              {% if product.available %}
+                <p style="color: white; font-size: 1.5rem;">Quedan plazas</strong></p>
+              {% endif %}
+            </div>
+            {% if not product.available %}
+                <p style="font-size:2rem; background-color:red;color:white;border-radius:5px;justify-content:center; display:flex">Agotado</p>
+              {% endif %}
+            
+            <div class="mt-5 col-md-5">
+              
             </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
 
-    <div class="site-section block-3 site-blocks-2 bg-light">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Featured Products</h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="nonloop-block-3 owl-carousel">
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="#" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 {% endblock %}

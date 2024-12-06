@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
-from coupons.forms import CouponApplyForm
+from django.contrib import messages
 
 @require_POST
 def cart_add(request, product_id):
@@ -25,5 +25,18 @@ def cart_detail(request):
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'override': True})
-    coupon_apply_form = CouponApplyForm()
-    return render(request, 'cart/detail.html', {'cart': cart, 'coupon_apply_form': coupon_apply_form})
+    return render(request, 'cart/detail.html', {'cart': cart})
+
+@require_POST
+def cart_update(request):
+    cart = Cart(request)
+    for item in cart:
+        product_id = str(item['product'].id)
+        quantity = request.POST.get(f'quantity_{product_id}')
+        if quantity:
+            try:
+                quantity = int(quantity)
+                cart.add(product=item['product'], quantity=quantity, update_quantity=True)
+            except ValueError:
+                messages.error(request, "Cantidad inválida.")
+    return redirect('cart:cart_detail')

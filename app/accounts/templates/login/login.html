@@ -68,13 +68,12 @@ Login
     <form class="form-signin" action="/accounts/login/singin/" method="POST">
         {% csrf_token %}
         <div class="{{errorclass}}" role="alert">{{error}}</div>
-      <img class="icon icon-person" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
-      <label for="inputUsername" class="sr-only">Username or email</label>
+      <h1 class="h3 mb-3 font-weight-normal">Entrar</h1>
+      <label for="inputUsername" class="sr-only">Usuario o correo</label>
       <input type="text" id="inputUsername" class="form-control" placeholder="Username or email" required=True autofocus=True name="username">
-      <label for="inputPassword" class="sr-only">Password</label>
+      <label for="inputPassword" class="sr-only">Contraseña</label>
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=True name="password">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
     </form>
 </body></html>
 {% endblock %}
