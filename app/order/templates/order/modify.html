@@ -63,7 +63,7 @@ Order-modification
       <b style = 'display: flex'>Ciudad</b>
       <label for="city" class="sr-only" >Ciudad</label>
       {% if user.cliente.ciudad %}
-      <input type="text" id="postal_code" name="postal_code" style= required value = {{ user.cliente.ciudad}}>
+      <input type="text" id="city" name="city" style= required value = {{ user.cliente.ciudad}}>
       {% else %}
       <input type="text" id="city" name="city" style= required placeholder="Ciudad">
       {% endif %}
